@@ -7,7 +7,7 @@ import (
 
 func main() {
 	e := engine.Default()
-	e.Get("/user", func(ctx *engine.Context) {
+	e.Get("/user/*", func(ctx *engine.Context) {
 		log.Println("hello")
 	})
 	e.Run(":80")
