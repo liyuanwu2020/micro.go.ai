@@ -9,7 +9,7 @@ import (
 func main() {
 	e := engine.Default()
 	e.Use(engine.Logging)
-	e.Get("/order/*", service.Route, func(handlerFunc engine.HandlerFunc) engine.HandlerFunc {
+	e.Get("/user/*", service.Route, func(handlerFunc engine.HandlerFunc) engine.HandlerFunc {
 		return func(ctx *engine.Context) {
 			ctx.Logger.Info("执行顺序 method")
 			handlerFunc(ctx)
@@ -17,17 +17,6 @@ func main() {
 	}, func(handlerFunc engine.HandlerFunc) engine.HandlerFunc {
 		return func(ctx *engine.Context) {
 			ctx.Logger.Info("执行顺序 method2")
-			handlerFunc(ctx)
-		}
-	})
-	e.Get("/goods/*", service.Route, func(handlerFunc engine.HandlerFunc) engine.HandlerFunc {
-		return func(ctx *engine.Context) {
-			ctx.Logger.Info("方法级别 MiddleHandler goods1")
-			handlerFunc(ctx)
-		}
-	}, func(handlerFunc engine.HandlerFunc) engine.HandlerFunc {
-		return func(ctx *engine.Context) {
-			ctx.Logger.Info("方法级别 MiddleHandler goods2")
 			handlerFunc(ctx)
 		}
 	})
