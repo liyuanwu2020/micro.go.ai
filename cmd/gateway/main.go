@@ -9,19 +9,9 @@ import (
 
 func main() {
 	e := engine.Default()
-	e.Use(engine.Logging)
+	e.Use(engine.Logging, engine.Recovery)
 	e.SetRegister(register.MsNacosDefault())
-	e.Get("/user2/*", service.Route, func(handlerFunc engine.HandlerFunc) engine.HandlerFunc {
-		return func(ctx *engine.Context) {
-			ctx.Logger.Info("执行顺序 method")
-			handlerFunc(ctx)
-		}
-	}, func(handlerFunc engine.HandlerFunc) engine.HandlerFunc {
-		return func(ctx *engine.Context) {
-			ctx.Logger.Info("执行顺序 method2")
-			handlerFunc(ctx)
-		}
-	})
+	e.Get("/user2/*", service.Route)
 
 	var configs []gateway.GWConfig
 	configs = append(configs, gateway.GWConfig{
